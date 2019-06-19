@@ -56,12 +56,13 @@ def assessment(test,f,movie_index,user_count):
         score = sort_result[row.userId - 1, :]
         try:
             index = np.where(score == np.where(row.movieId == movie_index)[0][0])[0][0]
-            r = index / (movie_index.shape[0] - user_count[row.userId - 1])
+            r = index / (movie_index.shape[0])
             all_grop.append(r)
             print(r)
         except:
             print('error')
-
+    n, bins, patches = plt.hist(np.array(all_grop),bins=100,normed=0,facecolor='black',edgecolor='black',alpha=1,histtype='bar')
+    plt.show()
     print('average r: {0}'.format(np.array(all_grop).mean()))
 
 def roc_pic(f_mat,user_count,mat_rat,mat_dislike,num = 50):
@@ -101,7 +102,6 @@ def roc_pic(f_mat,user_count,mat_rat,mat_dislike,num = 50):
         th_tprs[i] = tprs.mean()
         #print('once fpr: {0}   tpr: {1}'.format(th_fprs[i] ,th_tprs[i]))
     roc_auc = auc(th_fprs,th_tprs) #计算auc的值
-    plt.figure()
     lw = 2
     plt.figure(figsize=(10, 10))
     plt.plot(th_fprs, th_tprs, color='darkorange',
