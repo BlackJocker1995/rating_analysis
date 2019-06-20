@@ -25,12 +25,8 @@ def compute_f_mat(mat_rat,user_count,movie_count):
     :param movie_count: 电影被打分统计表
     :return: 评分矩阵f
     """
-    temp = np.zeros(mat_rat.shape)
-    temp2 = np.zeros(mat_rat.shape)
-    for i in range(0, movie_count.shape[0], 1):
-        temp[:, i] = mat_rat[:, i] / user_count
-    for j in range(0, user_count.shape[0], 1):
-        temp2[j, :] = temp[j, :] / movie_count
+    temp = mat_rat / user_count.reshape([-1,1])
+    temp2 = temp / movie_count.reshape([1,-1])
     D = np.dot(mat_rat.T, temp2)
 
     f = np.dot(D, mat_rat.T).T
@@ -61,7 +57,7 @@ def assessment(test,f,movie_index,user_count):
             print(r)
         except:
             print('error')
-    n, bins, patches = plt.hist(np.array(all_grop),bins=100,normed=0,facecolor='black',edgecolor='black',alpha=1,histtype='bar')
+    n, bins, patches = plt.hist(np.array(all_grop),bins=100,facecolor='black',edgecolor='black',alpha=1,histtype='bar')
     plt.show()
     print('average r: {0}'.format(np.array(all_grop).mean()))
 
