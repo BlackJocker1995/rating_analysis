@@ -25,9 +25,8 @@ def compute_f_mat(mat_rat,user_count,movie_count):
     :param movie_count: 电影被打分统计表
     :return: 评分矩阵f
     """
-    temp = mat_rat / user_count.reshape([-1,1])
-    temp2 = temp / movie_count.reshape([1,-1])
-    D = np.dot(mat_rat.T, temp2)
+    temp = (mat_rat / user_count.reshape([-1,1]) )/ movie_count.reshape([1,-1])
+    D = np.dot(mat_rat.T, temp)
 
     f = np.dot(D, mat_rat.T).T
 
